@@ -70,19 +70,20 @@ class GameActivityViewModel : ViewModel() {
             }
         }
 
+    }
 
-        fun checkBoard() {
-            _cellsListLiveData.mutation {
-                it.value?.filter { cell -> cell.isRepeated }
-                    ?.forEach { cell -> cell.isRepeated = false }
+    fun checkBoard() {
+        _cellsListLiveData.mutation {
+            it.value?.filter { cell -> cell.isRepeated }
+                ?.forEach { cell -> cell.isRepeated = false }
 
-                it.value?.let { cellsList ->
+            it.value?.let { cellsList ->
 //                for (i in 0..8){
 //                    val rowIndex = 9 * i
-                    checkRow(cellsList.subList(0, 9))
+                checkRow(cellsList.subList(0, 9))
 //                }
-                }
             }
         }
     }
+
 }
