@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.example.sudoku.Cell
 import com.example.sudoku.fillCellWithPaint
+import com.example.sudoku.getCellByRowAndColumn
 
 const val DRAW_START_VALUE = 0f
 const val CELLS_IN_LINE = 9
@@ -42,6 +43,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.GRAY
     }
 
+    private val repeatedCellPaint = Paint().apply {
+        style = Paint.Style.FILL
+        color = Color.RED
+    }
+
     private val textPaint = Paint().apply {
         style = Paint.Style.FILL
         color = Color.BLACK
@@ -54,7 +60,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private var selectedRow = NO_ROW_SELECTED
     private var selectedColumn = NO_COLUMN_SELECTED
 
-    var cellTouchListener: ((Pair<Int, Int>) -> Unit)? = null
+    var cellTouchListener: ((Cell?) -> Unit)? = null
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -67,7 +73,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         if (event != null) {
             selectedRow = (event.y / cellSize).toInt()
             selectedColumn = (event.x / cellSize).toInt()
-            cellTouchListener?.invoke(Pair(selectedRow, selectedColumn))
+            cellTouchListener?.invoke(cellsList.getCellByRowAndColumn(selectedRow, selectedColumn))
             invalidate()
         }
         return super.onTouchEvent(event)
@@ -80,6 +86,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             drawLines(canvas)
             fillSelectedCell(canvas)
             fillUneditableCells(canvas)
+            fillRepeatedCells(canvas)
             drawNumbers(canvas)
         }
 
@@ -122,6 +129,13 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             canvas.fillCellWithPaint(it.row, it.column, cellSize, uneditableCellPaint)
         }
     }
+
+    private fun fillRepeatedCells(canvas: Canvas) {
+        cellsList.filter { cell -> cell.isRepeated }.forEach {
+            canvas.fillCellWithPaint(it.row, it.column, cellSize, repeatedCellPaint)
+        }
+    }
+
 
     private fun drawNumbers(canvas: Canvas) {
         cellsList.forEach {

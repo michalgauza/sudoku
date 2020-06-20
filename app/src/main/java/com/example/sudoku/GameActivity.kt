@@ -24,7 +24,7 @@ class GameActivity : AppCompatActivity() {
         })
 
         binding.sudokuBoardViewGameActivity.cellTouchListener = {
-            viewModel.setSelectedCell(it.first, it.second)
+            viewModel.setSelectedCell(it)
         }
 
     }

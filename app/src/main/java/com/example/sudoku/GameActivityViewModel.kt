@@ -3,6 +3,7 @@ package com.example.sudoku
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.sudoku.ui.CELLS_IN_LINE
 
 class GameActivityViewModel : ViewModel() {
 
@@ -20,57 +21,68 @@ class GameActivityViewModel : ViewModel() {
         listOf(9, 0, 0, 0, 0, 2, 0, 8, 3)
     )
 
-
-    val listOfValues = listOfListOfCellsValues.flatten()
-    val cellsList = List(listOfValues.size) { i ->
-        Cell(
-            i % 9,
-            i / 9,
-            listOfValues[i],
-            listOfValues[i] == 0
-        )
-    }
-
-//    val cellsListLiveData = liveData {
-//        emit(cellsList)
-//    }
-
-//    private val _selectedCellLiveData = MutableLiveData<Cell>()
-//    val selectedCellLiveData: LiveData<Cell>
-//        get() = _selectedCellLiveData
-
     private val _cellsListLiveData = MutableLiveData<List<Cell>>()
     val cellsListLiveData: LiveData<List<Cell>>
         get() = _cellsListLiveData
 
-    var selectedCell: Cell? = null
+    private var selectedCell: Cell? = null
 
     init {
         setupCellsNumbers()
     }
 
-    private fun setupCellsNumbers(){
-        _cellsListLiveData.value = cellsList
+    private fun setupCellsNumbers() {
+        setupCellsList()
     }
 
-    fun setSelectedCell(row: Int, column: Int) {
-        selectedCell =
-            cellsListLiveData.value?.getCellByRowAndColumn(row, column)
+    private fun setupCellsList() {
+        listOfListOfCellsValues.flatten().also {
+            _cellsListLiveData.value = List(it.size) { i ->
+                Cell(
+                    i % CELLS_IN_LINE,
+                    i / CELLS_IN_LINE,
+                    it[i],
+                    it[i] == 0
+                )
+            }
+        }
+    }
+
+    fun setSelectedCell(cell: Cell?) {
+        selectedCell = cell
     }
 
     fun updateSelectedCell(newNum: Int) {
-        selectedCell?.let {
-            if (it.editable) selectedCell?.number = newNum
-            val tmp = cellsListLiveData.value
-            tmp?.getCellByRowAndColumn(it.row, it.column).apply { it.number = newNum }
-            _cellsListLiveData.value = tmp
+        selectedCell?.let { cell ->
+            if (cell.editable) {
+                _cellsListLiveData.mutation {
+                    it.value?.find { cell -> cell == selectedCell }?.number = newNum
+                }
+            }
+        }
+    }
+
+    fun checkRow(row: List<Cell>) {
+        row.getDuplicate().let { duplicates ->
+            duplicates.forEach { duplicatedCell ->
+                if (duplicatedCell.editable && duplicatedCell.number != 0)
+                    duplicatedCell.isRepeated = true
+            }
         }
 
+
+        fun checkBoard() {
+            _cellsListLiveData.mutation {
+                it.value?.filter { cell -> cell.isRepeated }
+                    ?.forEach { cell -> cell.isRepeated = false }
+
+                it.value?.let { cellsList ->
+//                for (i in 0..8){
+//                    val rowIndex = 9 * i
+                    checkRow(cellsList.subList(0, 9))
+//                }
+                }
+            }
+        }
     }
-
-    fun checkRow() {
-        val tmp = cellsListLiveData.value?.subList(0, 8)
-
-    }
-
 }
