@@ -3,7 +3,7 @@ package com.example.sudoku
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sudoku.ui.CELLS_IN_LINE
+import com.example.sudoku.ui.*
 
 class GameActivityViewModel : ViewModel() {
 
@@ -68,6 +68,7 @@ class GameActivityViewModel : ViewModel() {
                 setAllCellsToNotRepeated(cellsList)
                 checkRows(cellsList, 9)
                 checkColumns(cellsList, 9)
+                checkRectangles(cellsList)
             }
         }
     }
@@ -79,22 +80,21 @@ class GameActivityViewModel : ViewModel() {
 
     private fun checkRows(allCellsList: List<Cell>, rowsQuantity: Int) {
         allCellsList.let { cellsList ->
-            for (i in 0 until rowsQuantity) {
-                val rowIndex = rowsQuantity * i
-                checkRow(cellsList.subList(0 + rowIndex, CELLS_IN_LINE + rowIndex))
+            for (columnOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
+                checkRow(cellsList.subList(columnOffset, CELLS_IN_LINE + columnOffset))
             }
         }
     }
 
     private fun checkRow(row: List<Cell>) {
-        row.getDuplicates().setCellsRepeated()
+        row.getDuplicatedNumbers().toList().setCellsRepeated()
     }
 
     private fun checkColumns(allCellsList: List<Cell>, columnsQuantity: Int) {
         val subList = mutableListOf<Cell>()
-        for (j in 0 until columnsQuantity) {
-            for (i in 0 until 81 step 9) {
-                subList.add(allCellsList[i + j])
+        for (columnIndex in 0 until columnsQuantity) {
+            for (rowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
+                subList.add(allCellsList[rowOffset + columnIndex])
             }
             checkColumn(subList)
             subList.clear()
@@ -103,6 +103,27 @@ class GameActivityViewModel : ViewModel() {
     }
 
     private fun checkColumn(column: List<Cell>) {
-        column.getDuplicates().setCellsRepeated()
+        column.getDuplicatedNumbers().toList().setCellsRepeated()
+    }
+
+    private fun checkRectangles(allCellsList: List<Cell>) {
+        for (rectangleRowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_LINE * LINES_IN_RECT) {
+            for (rowOffset in 0 until CELLS_IN_RECT step LINES_IN_RECT) {
+                val cellsInRectangleList = mutableListOf<Cell>()
+                for (colOffset in 0 until CELLS_IN_LINE * LINES_IN_RECT step CELLS_IN_RECT) {
+                    cellsInRectangleList.addAll(
+                        allCellsList.subList(
+                            colOffset + rowOffset + rectangleRowOffset,
+                            LINES_IN_RECT + colOffset + rowOffset + rectangleRowOffset
+                        )
+                    )
+                }
+                checkRectangle(cellsInRectangleList)
+            }
+        }
+    }
+
+    private fun checkRectangle(rectangle: List<Cell>) {
+        rectangle.getDuplicatedNumbers().toList().setCellsRepeated()
     }
 }
