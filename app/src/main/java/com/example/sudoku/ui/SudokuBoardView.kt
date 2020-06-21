@@ -24,7 +24,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private val thickLinePaint = Paint().apply {
         style = Paint.Style.STROKE
         color = Color.BLACK
-        strokeWidth = 4f
+        strokeWidth = 6f
     }
 
     private val thinLinePaint = Paint().apply {
@@ -83,10 +83,10 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         super.onDraw(canvas)
         cellSize = (width / CELLS_IN_LINE).toFloat()
         if (canvas != null) {
-            drawLines(canvas)
             fillSelectedCell(canvas)
-            fillUneditableCells(canvas)
             fillRepeatedCells(canvas)
+            fillUneditableCells(canvas)
+            drawLines(canvas)
             drawNumbers(canvas)
         }
 
@@ -101,23 +101,31 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 height.toFloat(),
                 thickLinePaint
             )
-            for (i in 1..CELLS_IN_LINE) {
-                drawLine(
-                    i * cellSize,
-                    DRAW_START_VALUE,
-                    i * cellSize,
-                    height.toFloat(),
-                    getLinePaint(i)
-                )
-                drawLine(
-                    DRAW_START_VALUE,
-                    i * cellSize,
-                    width.toFloat(),
-                    i * cellSize,
-                    getLinePaint(i)
-                )
+            for (i in 0..CELLS_IN_LINE) {
+                drawVerticalLine(canvas, i)
+                drawHorizontalLine(canvas, i)
             }
         }
+    }
+
+    private fun drawVerticalLine(canvas: Canvas, columnIndex: Int){
+        canvas.drawLine(
+            columnIndex * cellSize,
+            DRAW_START_VALUE,
+            columnIndex * cellSize,
+            height.toFloat(),
+            getLinePaint(columnIndex)
+        )
+    }
+
+    private fun drawHorizontalLine(canvas: Canvas, rowIndex: Int){
+        canvas.drawLine(
+            DRAW_START_VALUE,
+            rowIndex * cellSize,
+            width.toFloat(),
+            rowIndex * cellSize,
+            getLinePaint(rowIndex)
+        )
     }
 
     private fun fillSelectedCell(canvas: Canvas) {

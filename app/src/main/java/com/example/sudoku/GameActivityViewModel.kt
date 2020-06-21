@@ -62,28 +62,47 @@ class GameActivityViewModel : ViewModel() {
         }
     }
 
-    fun checkRow(row: List<Cell>) {
-        row.getDuplicate().let { duplicates ->
-            duplicates.forEach { duplicatedCell ->
-                if (duplicatedCell.editable && duplicatedCell.number != 0)
-                    duplicatedCell.isRepeated = true
-            }
-        }
-
-    }
-
     fun checkBoard() {
         _cellsListLiveData.mutation {
-            it.value?.filter { cell -> cell.isRepeated }
-                ?.forEach { cell -> cell.isRepeated = false }
-
             it.value?.let { cellsList ->
-//                for (i in 0..8){
-//                    val rowIndex = 9 * i
-                checkRow(cellsList.subList(0, 9))
-//                }
+                setAllCellsToNotRepeated(cellsList)
+                checkRows(cellsList, 9)
+                checkColumns(cellsList, 9)
             }
         }
     }
 
+    private fun setAllCellsToNotRepeated(list: List<Cell>) {
+        list.filter { cell -> cell.isRepeated }
+            .forEach { cell -> cell.isRepeated = false }
+    }
+
+    private fun checkRows(allCellsList: List<Cell>, rowsQuantity: Int) {
+        allCellsList.let { cellsList ->
+            for (i in 0 until rowsQuantity) {
+                val rowIndex = rowsQuantity * i
+                checkRow(cellsList.subList(0 + rowIndex, CELLS_IN_LINE + rowIndex))
+            }
+        }
+    }
+
+    private fun checkRow(row: List<Cell>) {
+        row.getDuplicates().setCellsRepeated()
+    }
+
+    private fun checkColumns(allCellsList: List<Cell>, columnsQuantity: Int) {
+        val subList = mutableListOf<Cell>()
+        for (j in 0 until columnsQuantity) {
+            for (i in 0 until 81 step 9) {
+                subList.add(allCellsList[i + j])
+            }
+            checkColumn(subList)
+            subList.clear()
+        }
+
+    }
+
+    private fun checkColumn(column: List<Cell>) {
+        column.getDuplicates().setCellsRepeated()
+    }
 }
