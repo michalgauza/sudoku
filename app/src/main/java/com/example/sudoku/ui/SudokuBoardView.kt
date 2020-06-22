@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.example.sudoku.Cell
+import com.example.sudoku.models.Cell
 import com.example.sudoku.fillCellWithPaint
 import com.example.sudoku.getCellByRowAndColumn
 
@@ -114,7 +114,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         }
     }
 
-    private fun drawVerticalLine(canvas: Canvas, columnIndex: Int){
+    private fun drawVerticalLine(canvas: Canvas, columnIndex: Int) {
         canvas.drawLine(
             columnIndex * cellSize,
             DRAW_START_VALUE,
@@ -124,7 +124,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         )
     }
 
-    private fun drawHorizontalLine(canvas: Canvas, rowIndex: Int){
+    private fun drawHorizontalLine(canvas: Canvas, rowIndex: Int) {
         canvas.drawLine(
             DRAW_START_VALUE,
             rowIndex * cellSize,
@@ -170,9 +170,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private fun getLinePaint(index: Int): Paint =
         if (index % LINES_IN_RECT == 0) thickLinePaint else thinLinePaint
 
-    fun updateCellsList(newList: List<Cell>) {
-        cellsList.clear()
-        cellsList.addAll(newList)
-        invalidate()
+    fun updateCellsList(newList: List<Cell>?) {
+        if (newList != null) {
+            cellsList.clear()
+            cellsList.addAll(newList)
+            invalidate()
+        }
     }
 }

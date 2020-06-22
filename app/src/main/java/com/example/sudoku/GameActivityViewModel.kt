@@ -1,12 +1,14 @@
 package com.example.sudoku
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.sudoku.ui.*
+import androidx.annotation.StringRes
+import androidx.lifecycle.*
+import com.example.sudoku.models.SudokuChecker
+import com.example.sudoku.net.ResponseWrapper
+import com.example.sudoku.net.SudokuApiRepository
+import com.example.sudoku.net.SudokuApiResponse
+import kotlinx.coroutines.launch
 
-class GameActivityViewModel : ViewModel() {
-
+class GameActivityViewModel(private val repo: SudokuApiRepository) : ViewModel() {
 
     //todo przychodzi z api
     private val listOfListOfCellsValues = listOf(
@@ -21,109 +23,33 @@ class GameActivityViewModel : ViewModel() {
         listOf(9, 0, 0, 0, 0, 2, 0, 8, 3)
     )
 
-    private val _cellsListLiveData = MutableLiveData<List<Cell>>()
-    val cellsListLiveData: LiveData<List<Cell>>
-        get() = _cellsListLiveData
+    val sudokuBoard = SudokuChecker()
 
-    private var selectedCell: Cell? = null
+    private val _errorStringLiveData = MutableLiveData<@StringRes Int>()
+    val responseLiveData: LiveData<Int>
+        get() = _errorStringLiveData
 
-    init {
-        setupCellsNumbers()
-    }
+    private val _showLoadingLiveData = MutableLiveData<Boolean>()
+    val showLoadingLiveData: LiveData<Boolean>
+        get() = _showLoadingLiveData
 
-    private fun setupCellsNumbers() {
-        setupCellsList()
-    }
-
-    private fun setupCellsList() {
-        listOfListOfCellsValues.flatten().also {
-            _cellsListLiveData.value = List(it.size) { i ->
-                Cell(
-                    i % CELLS_IN_LINE,
-                    i / CELLS_IN_LINE,
-                    it[i],
-                    it[i] == 0
-                )
+    fun getRestSudokuValues() {
+        _showLoadingLiveData.value = true
+        viewModelScope.launch {
+            when (val response = repo.getSudokuValues()) {
+                is ResponseWrapper.Success -> setupSudokuBoard(response.value)
+                is ResponseWrapper.GenericError -> _errorStringLiveData.postValue(R.string.generic_error)
+                is ResponseWrapper.NetworkError -> _errorStringLiveData.postValue(R.string.network_error)
             }
+            _showLoadingLiveData.postValue(false)
         }
     }
 
-    fun setSelectedCell(cell: Cell?) {
-        selectedCell = cell
+    fun setupSudokuBoard(sudokuResponse: SudokuApiResponse) {
+        sudokuBoard.setupCellsNumbers(sudokuResponse.board.flatten())
     }
 
-    fun updateSelectedCell(newNum: Int) {
-        selectedCell?.let { cell ->
-            if (cell.editable) {
-                _cellsListLiveData.mutation {
-                    it.value?.find { cell -> cell == selectedCell }?.number = newNum
-                }
-            }
-        }
-    }
 
-    fun checkBoard() {
-        _cellsListLiveData.mutation {
-            it.value?.let { cellsList ->
-                setAllCellsToNotRepeated(cellsList)
-                checkRows(cellsList, 9)
-                checkColumns(cellsList, 9)
-                checkRectangles(cellsList)
-            }
-        }
-    }
 
-    private fun setAllCellsToNotRepeated(list: List<Cell>) {
-        list.filter { cell -> cell.isRepeated }
-            .forEach { cell -> cell.isRepeated = false }
-    }
 
-    private fun checkRows(allCellsList: List<Cell>, rowsQuantity: Int) {
-        allCellsList.let { cellsList ->
-            for (columnOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
-                checkRow(cellsList.subList(columnOffset, CELLS_IN_LINE + columnOffset))
-            }
-        }
-    }
-
-    private fun checkRow(row: List<Cell>) {
-        row.getDuplicatedNumbers().toList().setCellsRepeated()
-    }
-
-    private fun checkColumns(allCellsList: List<Cell>, columnsQuantity: Int) {
-        val subList = mutableListOf<Cell>()
-        for (columnIndex in 0 until columnsQuantity) {
-            for (rowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
-                subList.add(allCellsList[rowOffset + columnIndex])
-            }
-            checkColumn(subList)
-            subList.clear()
-        }
-
-    }
-
-    private fun checkColumn(column: List<Cell>) {
-        column.getDuplicatedNumbers().toList().setCellsRepeated()
-    }
-
-    private fun checkRectangles(allCellsList: List<Cell>) {
-        for (rectangleRowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_LINE * LINES_IN_RECT) {
-            for (rowOffset in 0 until CELLS_IN_RECT step LINES_IN_RECT) {
-                val cellsInRectangleList = mutableListOf<Cell>()
-                for (colOffset in 0 until CELLS_IN_LINE * LINES_IN_RECT step CELLS_IN_RECT) {
-                    cellsInRectangleList.addAll(
-                        allCellsList.subList(
-                            colOffset + rowOffset + rectangleRowOffset,
-                            LINES_IN_RECT + colOffset + rowOffset + rectangleRowOffset
-                        )
-                    )
-                }
-                checkRectangle(cellsInRectangleList)
-            }
-        }
-    }
-
-    private fun checkRectangle(rectangle: List<Cell>) {
-        rectangle.getDuplicatedNumbers().toList().setCellsRepeated()
-    }
 }
