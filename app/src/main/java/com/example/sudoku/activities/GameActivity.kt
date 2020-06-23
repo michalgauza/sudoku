@@ -81,7 +81,7 @@ class GameActivity : AppCompatActivity() {
             setTitle(getString(title))
             setCancelable(false)
             setPositiveButton(getString(R.string.try_again)) { _, _ ->
-                viewModel.setupSudokuBoard(true, difficultLevel)
+                viewModel.setupSudokuBoard(false, difficultLevel)
             }
             setNegativeButton(getString(R.string.exit_sudoku)) { _, _ ->
                 this@GameActivity.finish()
@@ -89,7 +89,6 @@ class GameActivity : AppCompatActivity() {
             show()
         }
     }
-
 
     companion object {
         const val DIFFICULT_LEVEL_KEY = "difficultLevelKey"
