@@ -19,6 +19,7 @@ const val RECTS_IN_BOARD = 9
 const val ROWS_IN_BOARD = 9
 const val COLUMNS_IN_BOARD = 9
 const val CELLS_IN_ROW = 9
+const val CELLS_IN_COLUMN= 9
 const val LINES_IN_RECT = 3
 const val NO_ROW_SELECTED = -1
 const val NO_COLUMN_SELECTED = -1

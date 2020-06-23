@@ -28,11 +28,22 @@ fun List<Cell>.setCellsRepeated() {
     }
 }
 
-fun List<Int>.toCellsList(): List<Cell> = List(this.size) { i ->
-    Cell(
-        i % CELLS_IN_LINE,
-        i / CELLS_IN_LINE,
-        this[i],
-        this[i] == EMPTY_CELL_NUMBER
-    )
+fun List<Int>.toCellsList(cellsInRow: Int, cellsInColumn: Int, emptyCellNumber: Int): List<Cell> {
+    val list = mutableListOf<Cell>()
+    var numberIndex = 0
+    for (row in 0 until cellsInRow) {
+        for (col in 0 until cellsInColumn) {
+            list.add(
+                Cell(
+                    col,
+                    row,
+                    this[numberIndex],
+                    this[numberIndex] == emptyCellNumber
+                )
+            )
+            numberIndex++
+        }
+    }
+    return list
 }
+

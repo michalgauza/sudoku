@@ -11,8 +11,11 @@ import com.example.sudoku.net.SudokuApiResponse
 import com.example.sudoku.utils.SingleLiveEvent
 import com.example.sudoku.extensions.mutation
 import com.example.sudoku.extensions.toCellsList
+import com.example.sudoku.utils.EMPTY_CELL_NUMBER
 import com.example.sudoku.utils.SudokuChecker
 import com.example.sudoku.utils.SudokuRepository
+import com.example.sudoku.views.CELLS_IN_LINE
+import com.example.sudoku.views.CELLS_IN_ROW
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -70,7 +73,10 @@ class GameActivityViewModel(private val repo: SudokuRepository) : ViewModel() {
 
     private suspend fun createSudokuBoard(difficultLevel: DifficultLevel) {
         getRestSudokuNumbers(difficultLevel)?.let { apiResponse ->
-            _boardLiveData.value = SudokuBoard(apiResponse.board.flatten().toCellsList())
+            _boardLiveData.value = SudokuBoard(
+                apiResponse.board.flatten()
+                    .toCellsList(CELLS_IN_LINE, CELLS_IN_LINE, EMPTY_CELL_NUMBER)
+            )
         }
     }
 
