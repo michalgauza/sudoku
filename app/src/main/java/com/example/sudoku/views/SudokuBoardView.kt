@@ -11,20 +11,7 @@ import android.view.View
 import com.example.sudoku.models.Cell
 import com.example.sudoku.extensions.fillCellWithPaint
 import com.example.sudoku.extensions.getCellByRowAndColumn
-
-const val DRAW_START_VALUE = 0f
-const val CELLS_IN_LINE = 9
-const val CELLS_IN_RECT = 9
-const val RECTS_IN_BOARD = 9
-const val ROWS_IN_BOARD = 9
-const val COLUMNS_IN_BOARD = 9
-const val CELLS_IN_ROW = 9
-const val CELLS_IN_COLUMN= 9
-const val LINES_IN_RECT = 3
-const val NO_ROW_SELECTED = -1
-const val NO_COLUMN_SELECTED = -1
-const val DEFAULT_CELL_SIZE = 0f
-const val CELLS_IN_BOARD = CELLS_IN_LINE * CELLS_IN_LINE
+import com.example.sudoku.utils.*
 
 class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 

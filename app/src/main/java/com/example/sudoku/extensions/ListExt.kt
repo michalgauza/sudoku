@@ -1,8 +1,6 @@
 package com.example.sudoku.extensions
 
 import com.example.sudoku.models.Cell
-import com.example.sudoku.views.CELLS_IN_LINE
-import com.example.sudoku.utils.EMPTY_CELL_NUMBER
 
 fun List<Cell>.getCellByRowAndColumn(row: Int, column: Int) =
     firstOrNull { cell -> cell.row == row && cell.column == column }

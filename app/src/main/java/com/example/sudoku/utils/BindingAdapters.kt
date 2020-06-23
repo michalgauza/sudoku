@@ -5,8 +5,6 @@ import android.widget.Button
 import androidx.databinding.BindingAdapter
 import com.example.sudoku.activities.GameActivityViewModel
 
-const val EMPTY_CELL_NUMBER = 0
-
 @BindingAdapter("changeNum")
 fun Button.changeNumber(viewModel: GameActivityViewModel) {
     this.setOnClickListener {

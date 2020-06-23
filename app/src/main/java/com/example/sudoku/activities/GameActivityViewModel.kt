@@ -8,14 +8,9 @@ import com.example.sudoku.models.DifficultLevel
 import com.example.sudoku.models.SudokuBoard
 import com.example.sudoku.net.ResponseWrapper
 import com.example.sudoku.net.SudokuApiResponse
-import com.example.sudoku.utils.SingleLiveEvent
 import com.example.sudoku.extensions.mutation
 import com.example.sudoku.extensions.toCellsList
-import com.example.sudoku.utils.EMPTY_CELL_NUMBER
-import com.example.sudoku.utils.SudokuChecker
-import com.example.sudoku.utils.SudokuRepository
-import com.example.sudoku.views.CELLS_IN_LINE
-import com.example.sudoku.views.CELLS_IN_ROW
+import com.example.sudoku.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
