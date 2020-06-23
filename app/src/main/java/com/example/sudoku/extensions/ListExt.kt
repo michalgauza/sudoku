@@ -1,13 +1,13 @@
 package com.example.sudoku.extensions
 
 import com.example.sudoku.models.Cell
-import com.example.sudoku.ui.CELLS_IN_LINE
+import com.example.sudoku.views.CELLS_IN_LINE
 import com.example.sudoku.utils.EMPTY_CELL_NUMBER
 
 fun List<Cell>.getCellByRowAndColumn(row: Int, column: Int) =
     firstOrNull { cell -> cell.row == row && cell.column == column }
 
-fun List<Cell>.getDuplicatedNumbers(): MutableSet<Cell> {
+fun List<Cell>.getCellsListWithSameNumber(): List<Cell> {
     val duplicates = mutableSetOf<Cell>()
     var previous: Cell? = null
     this.filter { cell -> cell.number != 0 }.sortedBy { it.number }.also { sortedList ->
@@ -19,7 +19,7 @@ fun List<Cell>.getDuplicatedNumbers(): MutableSet<Cell> {
             previous = cell
         }
     }
-    return duplicates
+    return duplicates.toList()
 }
 
 fun List<Cell>.setCellsRepeated() {
@@ -36,5 +36,4 @@ fun List<Int>.toCellsList(): List<Cell> = List(this.size) { i ->
         this[i],
         this[i] == EMPTY_CELL_NUMBER
     )
-
 }

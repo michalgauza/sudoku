@@ -2,8 +2,8 @@ package com.example.sudoku.utils
 
 import com.example.sudoku.models.Cell
 import com.example.sudoku.models.SudokuBoard
-import com.example.sudoku.ui.*
-import com.example.sudoku.extensions.getDuplicatedNumbers
+import com.example.sudoku.views.*
+import com.example.sudoku.extensions.getCellsListWithSameNumber
 import com.example.sudoku.extensions.setCellsRepeated
 
 class SudokuChecker {
@@ -36,7 +36,7 @@ class SudokuChecker {
     }
 
     private fun checkRow(row: List<Cell>) {
-        row.getDuplicatedNumbers().toList().setCellsRepeated()
+        row.getCellsListWithSameNumber().setCellsRepeated()
     }
 
     private fun checkColumns(allCellsList: List<Cell>) {
@@ -50,7 +50,7 @@ class SudokuChecker {
     }
 
     private fun checkColumn(column: List<Cell>) {
-        column.getDuplicatedNumbers().toList().setCellsRepeated()
+        column.getCellsListWithSameNumber().setCellsRepeated()
     }
 
     private fun checkRectangles(allCellsList: List<Cell>) {
@@ -71,6 +71,6 @@ class SudokuChecker {
     }
 
     private fun checkRectangle(rectangle: List<Cell>) {
-        rectangle.getDuplicatedNumbers().toList().setCellsRepeated()
+        rectangle.getCellsListWithSameNumber().toList().setCellsRepeated()
     }
 }

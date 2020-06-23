@@ -1,4 +1,4 @@
-package com.example.sudoku.ui
+package com.example.sudoku.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -89,8 +89,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         super.onDraw(canvas)
         cellSize = (width / CELLS_IN_LINE).toFloat()
         if (canvas != null) {
-            fillSelectedCell(canvas)
             fillRepeatedCells(canvas)
+            fillSelectedCell(canvas)
             fillUneditableCells(canvas)
             drawLines(canvas)
             drawNumbers(canvas)
@@ -135,7 +135,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun fillSelectedCell(canvas: Canvas) {
-        canvas.fillCellWithPaint(selectedRow, selectedColumn, cellSize, selectedCellPaint)
+        canvas.drawCircle(selectedColumn * cellSize + cellSize / 2,
+            selectedRow * cellSize + cellSize / 2, cellSize / 2, selectedCellPaint)
     }
 
     private fun fillUneditableCells(canvas: Canvas) {

@@ -90,6 +90,10 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        viewModel.saveGame()
+        super.onPause()
+    }
     companion object {
         const val DIFFICULT_LEVEL_KEY = "difficultLevelKey"
         const val IS_CONTINUE_KEY = "isContinueKey"
