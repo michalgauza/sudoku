@@ -5,12 +5,8 @@
     <data>
 
         <variable
-            name="sudokuBoardModel"
-            type="com.example.sudoku.models.SudokuChecker" />
-
-        <variable
             name="viewModel"
-            type="com.example.sudoku.GameActivityViewModel" />
+            type="com.example.sudoku.activities.GameActivityViewModel" />
     </data>
 
     <RelativeLayout
@@ -28,33 +24,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/sudoku_board_view_game_activity"
-            tools:context=".GameActivity">
+            tools:context=".activities.GameActivity">
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/one_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="1" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/two_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="2" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/three_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="3" />
 
@@ -65,27 +64,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/four_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="4" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/five_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="5" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/six_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="6" />
 
@@ -96,27 +98,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/seven_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="7" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/eight_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="8" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/nine_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="9" />
 
@@ -126,25 +131,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/clear_button_game_activity"
-                    changeNum="@{sudokuBoardModel}"
+                    changeNum="@{viewModel}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
                     android:text="@string/clear_button" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/check_button_game_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
                     android:layout_weight="1"
-                    android:onClick="@{() -> sudokuBoardModel.checkBoard()}"
+                    android:onClick="@{() -> viewModel.checkBoard()}"
                     android:text="@string/check_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_button_game_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> viewModel.saveGame()}"
+                    android:text="@string/save_button" />
+
             </TableRow>
         </TableLayout>
 
-        <ProgressBar
+        <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar_game_activity"
             style="?android:attr/progressBarStyle"
             isVisible="@{viewModel.showLoadingLiveData}"

@@ -1,21 +1,21 @@
-package com.example.sudoku
+package com.example.sudoku.utils
 
 import android.view.View
 import android.widget.Button
 import androidx.databinding.BindingAdapter
-import com.example.sudoku.models.SudokuChecker
+import com.example.sudoku.activities.GameActivityViewModel
 
 const val EMPTY_CELL_NUMBER = 0
 
 @BindingAdapter("changeNum")
-fun Button.changeNumber(sudokuBoardModel: SudokuChecker) {
+fun Button.changeNumber(viewModel: GameActivityViewModel) {
     this.setOnClickListener {
         val num = try {
             Integer.parseInt(this.text as String)
         } catch (e: NumberFormatException) {
             EMPTY_CELL_NUMBER
         }
-        sudokuBoardModel.updateSelectedCell(num)
+        viewModel.updateSelectedCell(num)
     }
 }
 

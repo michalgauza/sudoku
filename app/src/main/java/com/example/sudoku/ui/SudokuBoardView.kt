@@ -9,8 +9,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.example.sudoku.models.Cell
-import com.example.sudoku.fillCellWithPaint
-import com.example.sudoku.getCellByRowAndColumn
+import com.example.sudoku.extensions.fillCellWithPaint
+import com.example.sudoku.extensions.getCellByRowAndColumn
 
 const val DRAW_START_VALUE = 0f
 const val CELLS_IN_LINE = 9
@@ -170,11 +170,9 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private fun getLinePaint(index: Int): Paint =
         if (index % LINES_IN_RECT == 0) thickLinePaint else thinLinePaint
 
-    fun updateCellsList(newList: List<Cell>?) {
-        if (newList != null) {
-            cellsList.clear()
-            cellsList.addAll(newList)
-            invalidate()
-        }
+    fun updateCellsList(newList: List<Cell>) {
+        cellsList.clear()
+        cellsList.addAll(newList)
+        invalidate()
     }
 }

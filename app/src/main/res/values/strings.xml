@@ -2,8 +2,20 @@
     <string name="app_name">Sudoku</string>
     <string name="generic_error">Ups... something went wrong</string>
     <string name="network_error">Please check internet connection</string>
+    <string name="win">Congratulations! You won!</string>
     <string name="exit_sudoku">Exit Sudoku</string>
     <string name="try_again">Try again</string>
     <string name="clear_button">clear</string>
     <string name="check_button">check</string>
+    <string name="menu_activity_title">SUDOKU GAME</string>
+    <string name="continue_button">CONTINUE</string>
+    <string name="easy_button">EASY</string>
+    <string name="medium_button">MEDIUM</string>
+    <string name="hard_button">HARD</string>
+    <string name="save_button">SAVE</string>
+    <string name="save_successful">GAME SAVED</string>
+    <string name="save_fail">ERROR WHEN SAVING</string>
+    <string name="load_saved_game">GAME LOADED</string>
+    <string name="new_game">NEW GAME STARTED</string>
+    <string name="no_saved_game">NO SAVED GAME. NEW GAME STARTED</string>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_margin">16dp</dimen>
+    <dimen name="menu_activity_title_text_size">40sp</dimen>
+    <dimen name="menu_activity_title_margin">36dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+</resources>

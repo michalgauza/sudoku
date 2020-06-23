@@ -1,4 +1,4 @@
-package com.example.sudoku
+package com.example.sudoku.extensions
 
 import androidx.lifecycle.MutableLiveData
 

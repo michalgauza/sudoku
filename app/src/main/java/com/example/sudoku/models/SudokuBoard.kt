@@ -1,3 +1,3 @@
 package com.example.sudoku.models
 
-data class SudokuBoard(val list: List<Cell>)
+data class SudokuBoard(var cellsList: List<Cell>)

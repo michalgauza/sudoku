@@ -5,5 +5,5 @@ import retrofit2.http.Query
 
 interface RestApi {
     @GET("board")
-    suspend fun getSudokuValues(@Query("difficulty") difficulty: String = "easy"): SudokuApiResponse
+    suspend fun getSudokuValues(@Query("difficulty") difficulty: String): SudokuApiResponse
 }

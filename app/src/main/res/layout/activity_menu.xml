@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".activities.MenuActivity">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/menu_activity_title_margin"
+        android:text="@string/menu_activity_title"
+        android:textSize="@dimen/menu_activity_title_text_size" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continue_button_menu_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin"
+        android:text="@string/continue_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/easy_button_menu_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin"
+        android:text="@string/easy_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/medium_button_menu_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin"
+        android:text="@string/medium_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/hard_button_menu_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin"
+        android:text="@string/hard_button" />
+
+</LinearLayout>

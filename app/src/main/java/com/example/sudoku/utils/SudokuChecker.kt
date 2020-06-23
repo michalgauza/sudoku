@@ -1,56 +1,26 @@
-package com.example.sudoku.models
+package com.example.sudoku.utils
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.sudoku.EMPTY_CELL_NUMBER
-import com.example.sudoku.getDuplicatedNumbers
-import com.example.sudoku.mutation
-import com.example.sudoku.setCellsRepeated
+import com.example.sudoku.models.Cell
+import com.example.sudoku.models.SudokuBoard
 import com.example.sudoku.ui.*
+import com.example.sudoku.extensions.getDuplicatedNumbers
+import com.example.sudoku.extensions.setCellsRepeated
 
 class SudokuChecker {
 
-    private val _cellsListLiveData = MutableLiveData<List<Cell>>()
-    val cellsListLiveData: LiveData<List<Cell>>
-        get() = _cellsListLiveData
-
-    private var selectedCell: Cell? = null
-
-    fun setupCellsNumbers(list: List<Int>) {
-        _cellsListLiveData.value = List(list.size) { i ->
-            Cell(
-                i % CELLS_IN_LINE,
-                i / CELLS_IN_LINE,
-                list[i],
-                list[i] == EMPTY_CELL_NUMBER
-            )
+    fun checkBoard(sudokuBoard: SudokuBoard?): Boolean {
+        sudokuBoard?.cellsList?.let { cellsList ->
+            setAllCellsToNotRepeated(cellsList)
+            checkRows(cellsList)
+            checkColumns(cellsList)
+            checkRectangles(cellsList)
+            return checkIfWin(cellsList)
         }
+        return false
     }
 
-    fun setSelectedCell(cell: Cell?) {
-        selectedCell = cell
-    }
-
-    fun updateSelectedCell(newNum: Int) {
-        selectedCell?.let { cell ->
-            if (cell.editable) {
-                _cellsListLiveData.mutation {
-                    it.value?.find { cell -> cell == selectedCell }?.number = newNum
-                }
-            }
-        }
-    }
-
-    fun checkBoard() {
-        _cellsListLiveData.mutation {
-            it.value?.let { cellsList ->
-                setAllCellsToNotRepeated(cellsList)
-                checkRows(cellsList)
-                checkColumns(cellsList)
-                checkRectangles(cellsList)
-            }
-        }
-    }
+    private fun checkIfWin(cellsList: List<Cell>) =
+        cellsList.none { cell -> cell.isRepeated || cell.number == EMPTY_CELL_NUMBER }
 
     private fun setAllCellsToNotRepeated(list: List<Cell>) {
         list.filter { cell -> cell.isRepeated }
