@@ -28,10 +28,8 @@ class SudokuChecker {
     }
 
     private fun checkRows(allCellsList: List<Cell>) {
-        allCellsList.let { cellsList ->
-            for (columnOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
-                checkRow(cellsList.subList(columnOffset, CELLS_IN_ROW + columnOffset))
-            }
+        for (rowIndex in 0 until ROWS_IN_BOARD) {
+            checkRow(allCellsList.filter { cell -> cell.row == rowIndex })
         }
     }
 
@@ -41,11 +39,7 @@ class SudokuChecker {
 
     private fun checkColumns(allCellsList: List<Cell>) {
         for (columnIndex in 0 until COLUMNS_IN_BOARD) {
-            val subList = mutableListOf<Cell>()
-            for (rowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_ROW) {
-                subList.add(allCellsList[rowOffset + columnIndex])
-            }
-            checkColumn(subList)
+            checkColumn(allCellsList.filter { cell -> cell.column == columnIndex })
         }
     }
 
@@ -53,19 +47,32 @@ class SudokuChecker {
         column.getCellsListWithSameNumber().setCellsRepeated()
     }
 
+//    private fun checkRectangles(allCellsList: List<Cell>) {
+//        for (rectangleRowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_LINE * LINES_IN_RECT) {
+//            for (rowOffset in 0 until CELLS_IN_RECT step LINES_IN_RECT) {
+//                val cellsInRectangleList = mutableListOf<Cell>()
+//                for (colOffset in 0 until CELLS_IN_LINE * LINES_IN_RECT step CELLS_IN_RECT) {
+//                    cellsInRectangleList.addAll(
+//                        allCellsList.subList(
+//                            colOffset + rowOffset + rectangleRowOffset,
+//                            LINES_IN_RECT + colOffset + rowOffset + rectangleRowOffset
+//                        )
+//                    )
+//                }
+//                checkRectangle(cellsInRectangleList)
+//            }
+//        }
+//    }
+
     private fun checkRectangles(allCellsList: List<Cell>) {
-        for (rectangleRowOffset in 0 until CELLS_IN_BOARD step CELLS_IN_LINE * LINES_IN_RECT) {
-            for (rowOffset in 0 until CELLS_IN_RECT step LINES_IN_RECT) {
-                val cellsInRectangleList = mutableListOf<Cell>()
-                for (colOffset in 0 until CELLS_IN_LINE * LINES_IN_RECT step CELLS_IN_RECT) {
-                    cellsInRectangleList.addAll(
-                        allCellsList.subList(
-                            colOffset + rowOffset + rectangleRowOffset,
-                            LINES_IN_RECT + colOffset + rowOffset + rectangleRowOffset
-                        )
-                    )
-                }
-                checkRectangle(cellsInRectangleList)
+        for (rowIndex in 0 until COLUMNS_IN_BOARD step LINES_IN_RECT) {
+            val subList = mutableListOf<Cell>()
+            for (colIndex in 0 until ROWS_IN_BOARD step LINES_IN_RECT) {
+                subList.addAll(allCellsList.filter { cell ->
+                    cell.column in colIndex until LINES_IN_RECT + colIndex && cell.row in rowIndex until LINES_IN_RECT + rowIndex
+                })
+                checkRectangle(subList)
+                subList.clear()
             }
         }
     }

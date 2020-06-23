@@ -24,8 +24,7 @@ fun List<Cell>.getCellsListWithSameNumber(): List<Cell> {
 
 fun List<Cell>.setCellsRepeated() {
     this.forEach { duplicatedCell ->
-        if (duplicatedCell.editable)
-            duplicatedCell.isRepeated = true
+        duplicatedCell.isRepeated = true
     }
 }
 

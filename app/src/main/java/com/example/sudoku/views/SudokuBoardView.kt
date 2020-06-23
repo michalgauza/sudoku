@@ -89,9 +89,9 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         super.onDraw(canvas)
         cellSize = (width / CELLS_IN_LINE).toFloat()
         if (canvas != null) {
-            fillRepeatedCells(canvas)
             fillSelectedCell(canvas)
             fillUneditableCells(canvas)
+            fillRepeatedCells(canvas)
             drawLines(canvas)
             drawNumbers(canvas)
         }
@@ -135,8 +135,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun fillSelectedCell(canvas: Canvas) {
-        canvas.drawCircle(selectedColumn * cellSize + cellSize / 2,
-            selectedRow * cellSize + cellSize / 2, cellSize / 2, selectedCellPaint)
+        canvas.fillCellWithPaint(selectedRow, selectedColumn, cellSize, selectedCellPaint)
     }
 
     private fun fillUneditableCells(canvas: Canvas) {
@@ -147,7 +146,10 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private fun fillRepeatedCells(canvas: Canvas) {
         cellsList.filter { cell -> cell.isRepeated }.forEach {
-            canvas.fillCellWithPaint(it.row, it.column, cellSize, repeatedCellPaint)
+            canvas.drawCircle(
+                it.column * cellSize + cellSize / 2,
+                it.row * cellSize + cellSize / 2, cellSize / 2, repeatedCellPaint
+            )
         }
     }
 

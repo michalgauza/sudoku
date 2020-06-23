@@ -83,7 +83,7 @@ class GameActivity : AppCompatActivity() {
             setPositiveButton(getString(R.string.try_again)) { _, _ ->
                 viewModel.setupSudokuBoard(false, difficultLevel)
             }
-            setNegativeButton(getString(R.string.exit_sudoku)) { _, _ ->
+            setNegativeButton(getString(R.string.go_to_menu)) { _, _ ->
                 this@GameActivity.finish()
             }
             show()

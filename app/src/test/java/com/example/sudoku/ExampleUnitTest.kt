@@ -15,7 +15,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
 
     @Test
-    fun testGetCellByRowAndColumn() {
+    fun testFunGetCellByRowAndColumn() {
         val cell1 = Cell(0, 0, 0, editable = false, isRepeated = false)
         val cell2 = Cell(1, 1, 0, editable = false, isRepeated = false)
         val cell3 = Cell(4, 5, 0, editable = false, isRepeated = false)
@@ -27,7 +27,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testGetDuplicatesNumbersNoDuplicates() {
+    fun testFunGetDuplicatesNumbersNoDuplicates() {
         val cell1 = Cell(0, 0, 1, editable = false, isRepeated = false)
         val cell2 = Cell(1, 1, 2, editable = false, isRepeated = false)
         val cell3 = Cell(4, 5, 3, editable = false, isRepeated = false)
@@ -37,7 +37,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testGetDuplicatesNumbers() {
+    fun testFunGetDuplicatesNumbers() {
         val cell1 = Cell(0, 0, 1, editable = false, isRepeated = false)
         val cell2 = Cell(1, 1, 2, editable = false, isRepeated = false)
         val cell3 = Cell(4, 5, 3, editable = false, isRepeated = false)
@@ -49,7 +49,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testToCellsList(){
+    fun testFunToCellsList(){
         val cell1 = Cell(0, 0, 1, false)
         val cell2 = Cell(1, 0, 0, true)
         val cell3 = Cell(2, 0, 0, true)
