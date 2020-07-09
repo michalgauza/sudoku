@@ -11,6 +11,7 @@ fun Button.changeNumber(viewModel: GameActivityViewModel) {
         val num = try {
             Integer.parseInt(this.text as String)
         } catch (e: NumberFormatException) {
+            viewModel.clear()
             EMPTY_CELL_NUMBER
         }
         viewModel.updateSelectedCell(num)

@@ -23,6 +23,7 @@ val restApiModule = module {
     single { provideOkHttpClient() }
     single { provideRetrofit(get()) }
     single { provideRestApi(get()) }
+    single { provideGson() }
 
 }
 
@@ -31,22 +32,22 @@ val sharedPreferencesModule = module {
 }
 
 val repositoryModule = module {
-    single { SudokuRepository(get(), get()) }
+    single { SudokuRepository(get(), get(), get()) }
 }
 
-private fun provideOkHttpClient(): OkHttpClient {
-    return OkHttpClient().newBuilder().build()
-}
+private fun provideGson():Gson = Gson()
 
-private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    return Retrofit.Builder().baseUrl(BASE_URL)
+private fun provideOkHttpClient(): OkHttpClient = OkHttpClient().newBuilder().build()
+
+
+private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+    Retrofit.Builder().baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(Gson().newBuilder().create()))
         .build()
-}
+
 
 private fun provideRestApi(retrofit: Retrofit): RestApi = retrofit.create(RestApi::class.java)
 
-private fun provideSharedPreferences(context: Context): SharedPreferences {
-    return context.getSharedPreferences(SUDOKU_BOARD_KEY, Context.MODE_PRIVATE)
-}
+private fun provideSharedPreferences(context: Context): SharedPreferences =
+    context.getSharedPreferences(SUDOKU_BOARD_KEY, Context.MODE_PRIVATE)

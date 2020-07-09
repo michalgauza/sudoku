@@ -79,11 +79,24 @@ class GameActivityViewModel(private val repo: SudokuRepository) : ViewModel() {
         selectedCell = cell
     }
 
+    fun clear() {
+        selectedCell?.let { selectedCell ->
+            _boardLiveData.mutation { liveData ->
+                liveData.value?.cellsList?.filter { cell -> cell.number == selectedCell.number }
+                    ?.let { list ->
+                        list.forEach { cell ->
+                            cell.isRepeated = false
+                        }
+                    }
+            }
+        }
+    }
+
     fun updateSelectedCell(newNum: Int) {
         selectedCell?.let { selectedCell ->
             if (selectedCell.editable) {
                 _boardLiveData.mutation { liveData ->
-                    liveData.value?.cellsList?.find { cell -> cell == this.selectedCell }
+                    liveData.value?.cellsList?.find { cell -> cell == selectedCell }
                         ?.let { cell ->
                             cell.number = newNum
                             cell.isRepeated = false

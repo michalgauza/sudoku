@@ -9,20 +9,19 @@ import com.google.gson.Gson
 import retrofit2.HttpException
 import java.io.IOException
 
-
 const val SUDOKU_BOARD_KEY = "sudokuBoardKey"
 
-class SudokuRepository(private val api: RestApi, private val sharedPreferences: SharedPreferences) {
+class SudokuRepository(private val api: RestApi, private val sharedPreferences: SharedPreferences, private val gson: Gson) {
 
     fun loadSudokuBoard(): SudokuBoard? {
         sharedPreferences.getString(SUDOKU_BOARD_KEY, null)?.let { string ->
-            return Gson().fromJson(string, SudokuBoard::class.java)
+            return gson.fromJson(string, SudokuBoard::class.java)
         }
         return null
     }
 
     fun saveSudokuBoard(sudokuBoard: SudokuBoard): Boolean {
-        Gson().toJson(sudokuBoard).let { string ->
+        gson.toJson(sudokuBoard).let { string ->
             return sharedPreferences.edit().putString(SUDOKU_BOARD_KEY, string).commit()
         }
     }
